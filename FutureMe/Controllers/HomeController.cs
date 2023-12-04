@@ -7,7 +7,7 @@ namespace FutureMe.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IEmailSender emailSender;
+        private readonly ILogger<HomeController> _logger;
 
         public HomeController(IEmailSender emailSender)
         {

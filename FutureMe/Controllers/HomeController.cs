@@ -1,5 +1,4 @@
 ﻿using FutureMe.Models;
-using FutureMe.Services.EmailSender;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,15 +8,25 @@ namespace FutureMe.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IEmailSender emailSender)
+        public HomeController(ILogger<HomeController> logger)
         {
-            this.emailSender = emailSender;
+            _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            await emailSender.SendEmailAsync("salmabouabidi019@gmail.com","test","test");
             return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

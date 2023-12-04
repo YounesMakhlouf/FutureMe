@@ -3,8 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-/appsettings.json
 
+
+FutureMe/appsettings.json
 
 
 # User-specific files

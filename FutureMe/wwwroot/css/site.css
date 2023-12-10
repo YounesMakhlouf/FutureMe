@@ -1,14 +1,136 @@
 :root {
-    --bg-color: rgb(20, 20, 20);
-    --card-color: rgb(23, 23, 23);
+    --glow-rgb: 239 42 201;
+    --ff-base: "Lora", serif;
+    --ff-headings: "Playfair Display", serif;
+    --fs-300: clamp(1rem, 0.956rem + 0.1878vw, 1.125rem);
+    --fs-400: clamp(1.2rem, 1.0946rem + 0.4498vw, 1.4994rem);
+    --fs-500: clamp(1.44rem, 1.2433rem + 0.8394vw, 1.9988rem);
+    --fs-600: clamp(1.7281rem, 1.3985rem + 1.4066vw, 2.6644rem);
+    --fs-700: clamp(2.0738rem, 1.5533rem + 2.2207vw, 3.5519rem);
+    --fs-800: clamp(2.4881rem, 1.697rem + 3.3756vw, 4.735rem);
+}
+body { 
+    font-size: var(--fs-400);
+ //   font-family: var(--ff-base);
+    line-height: 1.6;
 }
 
-.hero{
-    min-height: 50svh;
+h1, h2, h3, h4, h5, h6 {
+ //   font-family: var(--ff-headings);
+    line-height: 1.1;
+    color: var(--clr-titles);
+    text-wrap: balance;
+}
+
+h1 {
+    font-size: var(--fs-800);
+}
+
+h2 {
+    font-size: var(--fs-600);
+}
+
+h3 {
+    font-size: var(--fs-500);
+}
+
+h4 {
+    font-size: var(--fs-400);
+}
+
+
+html {
+    color-scheme: light dark;
+}
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role='list'],
+ol[role='list'] {
+    list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+    font-style: italic;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+.hero {
     display: grid;
     place-content: center;
-    background: blue;
-    color:white;
+    color: white;
+    background: linear-gradient(145deg, rgb(119, 46, 195), rgb(58, 18, 153));
+    min-height: 80svh;
+    overflow: hidden;
+}
+
+::marker {
+    color: var(--clrAccent);
 }
 
 .wrapper {
@@ -32,4 +154,71 @@
 
 .letter {
     padding: 1rem;
+}
+
+.glow-point {
+    position: absolute;
+    box-shadow: 0rem 0rem 1.2rem 0.6rem rgb(var(--glow-rgb));
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    z-index: 2;
+    color: white;
+    font-size: 1rem;
+    animation-duration: 1500ms;
+    animation-fill-mode: forwards;
+    pointer-events: none;
+}
+
+@keyframes fall-1 {
+    0% {
+        transform: translate(0px, 0px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(0.25);
+        opacity: 0;
+    }
+
+    5% {
+        transform: translate(10px, -10px) rotateX(45deg) rotateY(30deg) rotateZ(0deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(25px, 200px) rotateX(180deg) rotateY(270deg) rotateZ(90deg) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes fall-2 {
+    0% {
+        transform: translate(0px, 0px) rotateX(-20deg) rotateY(10deg) scale(0.25);
+        opacity: 0;
+    }
+
+    10% {
+        transform: translate(-10px, -5px) rotateX(-20deg) rotateY(10deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-10px, 160px) rotateX(-90deg) rotateY(45deg) scale(0.25);
+        opacity: 0;
+    }
+}
+
+@keyframes fall-3 {
+    0% {
+        transform: translate(0px, 0px) rotateX(0deg) rotateY(45deg) scale(0.5);
+        opacity: 0;
+    }
+
+    15% {
+        transform: translate(7px, 5px) rotateX(0deg) rotateY(45deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(20px, 120px) rotateX(-180deg) rotateY(-90deg) scale(0.5);
+        opacity: 0;
+    }
 }

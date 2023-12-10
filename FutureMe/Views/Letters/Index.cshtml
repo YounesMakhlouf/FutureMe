@@ -4,7 +4,9 @@
     ViewData["Title"] = "Index";
 }
 <div class="hero">
-    <h1 class="text-center">Future Stories: Letters that Shape the Future</h1>
+    <h1 class="text-center">
+        Future Stories: Letters that Shape the Future
+    </h1>
 </div>
 
 <p>
@@ -17,8 +19,11 @@
 @foreach (var item in Model) {
         <div class="letter">
             <p>@Html.DisplayFor(modelItem => item.WritingDate)</p>
-            <h1 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h1>
+                <h1 class="card-title">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </h1>
             <p>@Html.DisplayFor(modelItem => item.Content)</p>
         </div>
 }
+    </div>
     </div>

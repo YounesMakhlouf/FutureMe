@@ -40,8 +40,9 @@ namespace FutureMe.Controllers
                 return (RedirectToAction(nameof(Index)));
             }
 
-            _letterSaverService.saveLetter(content, sendingDate, IsPublic, Email, Title, 1); //change 1 to UserId once identity is included
+            _letterSaverService.saveLetter(content, sendingDate, IsPublic, Email, Title, UserId);
             //TODO:Add success message to view
+            TempData["Success"] = "Letter saved successfully !";
             return (RedirectToAction(nameof(Index)));
 
 

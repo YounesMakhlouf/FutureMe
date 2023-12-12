@@ -3,27 +3,26 @@
 @{
     ViewData["Title"] = "Index";
 }
-<div class="hero">
+<div class="hero mb-5">
     <h1 class="text-center">
         Future Stories: Letters that Shape the Future
     </h1>
 </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
-<div class=" grid-container">
+
+<div class="grid-container">
     <div class="grid wrapper">
-
-@foreach (var item in Model) {
-        <div class="letter">
-            <p>@Html.DisplayFor(modelItem => item.WritingDate)</p>
-                <h1 class="card-title">
-                    @Html.DisplayFor(modelItem => item.Title)
-                </h1>
-            <p>@Html.DisplayFor(modelItem => item.Content)</p>
-        </div>
-}
+        @foreach (var item in Model) {
+                <div class="letter flow">
+                    <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+                    <p>@Html.DisplayFor(modelItem => item.Content)</p>
+                     <span class="icon-link">
+                         <i class="fa-solid fa-clock"></i>
+                         @Html.DisplayFor(modelItem => item.WritingDate)
+                     </span>
+                </div>
+        }
     </div>
-    </div>
+        <a asp-action="Create" class="btn btn-primary">Use our time machine</a>
+</div>

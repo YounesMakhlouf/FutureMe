@@ -1,6 +1,5 @@
 :root {
-    --ff-base: "Lora", serif;
-    --ff-accent: "Playfair Display", serif;
+    --ff-base: 'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive;
     --fs-300: clamp(1rem, 0.956rem + 0.1878vw, 1.125rem);
     --fs-400: clamp(1.2rem, 1.0946rem + 0.4498vw, 1.4994rem);
     --fs-500: clamp(1.44rem, 1.2433rem + 0.8394vw, 1.9988rem);
@@ -23,7 +22,6 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: var(--ff-accent);
     line-height: 1.1;
     color: var(--clr-titles);
     text-wrap: balance;

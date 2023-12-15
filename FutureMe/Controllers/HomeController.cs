@@ -1,4 +1,5 @@
 ﻿using FutureMe.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -14,11 +15,6 @@ namespace FutureMe.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }

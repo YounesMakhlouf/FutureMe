@@ -14,11 +14,12 @@
     --clr-secondary: hsl(258, 79%, 34%);
     --glow-rgb: 237 33 139;
 }
-body { 
+body {
     font-size: var(--fs-400);
     font-family: var(--ff-base);
     color: var(--clr-body);
     line-height: 1.6;
+    overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -149,10 +150,6 @@ select {
     min-height: 70svh;
 }
 
-body{
-    overflow-x: clip;
-}
-
 .details-link{
     color: inherit;
     text-decoration: none;
@@ -175,10 +172,6 @@ body{
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 240px;
-}
-
-.letter {
-    padding: 1rem;
 }
 
 .call-to-action {

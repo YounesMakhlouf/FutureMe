@@ -14,12 +14,12 @@
     <div class="wrapper">
         @foreach (var item in Model) {
         <a class="details-link" asp-action="Details" asp-route-id="@item.Id">
-        <div class="letter flow mb-4">
+        <div class="letter flow mb-4 p-3">
                     <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
                     <p>@Html.DisplayFor(modelItem => item.Content)</p>
                      <span class="icon-link">
                          <i class="fa-solid fa-clock"></i>
-                         @Html.DisplayFor(modelItem => item.WritingDate)
+                         @Html.DisplayFor(modelItem => item.WritingDate, "DateTimeAgo")
                      </span>
                 </div>
         </a>

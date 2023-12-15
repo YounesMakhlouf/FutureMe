@@ -169,12 +169,6 @@ select {
     grid-template-columns: 1fr 240px;
 }
 
-//.grid {
-  //  display: grid;
-    //gap: 0.5rem;
-   // grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-//}
-
 .letter {
     padding: 1rem;
 }

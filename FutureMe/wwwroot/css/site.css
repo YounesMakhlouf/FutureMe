@@ -147,7 +147,10 @@ select {
     color: white;
     background: linear-gradient(145deg, var(--clr-primary), var(--clr-secondary));
     min-height: 70svh;
-    overflow: hidden;
+}
+
+body{
+    overflow-x: clip;
 }
 
 ::marker {
@@ -176,7 +179,6 @@ select {
 .call-to-action {
     max-height: 4em;
     padding: 0.875em;
-    width: fit-content;
     margin-inline: auto;
     background: var(--clr-primary);
     font-size: var(--fs-500);

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<FutureMe.Models.Letter>
+
+@{
+    ViewData["Title"] = "Public Letters";
+}
+<div class="hero mb-5 flow">
+    <h1 class="text-center">
+        Future Stories: Letters that Shape the Future
+    </h1>
+    <a asp-controller="Home" asp-action="Index" class="btn call-to-action">Use our time machine</a>
+
+</div>
+
+    <div class="wrapper">
+        @foreach (var item in Model) {
+        <a class="details-link" asp-action="Details" asp-route-id="@item.Id">
+        <div class="letter flow mb-4 p-3">
+                    <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+                    <p>@Html.DisplayFor(modelItem => item.Content)</p>
+                     <span class="icon-link">
+                         <i class="fa-solid fa-clock"></i>
+                         @Html.DisplayFor(modelItem => item.WritingDate, "DateTimeAgo")
+                     </span>
+                </div>
+        </a>
+        }
+    </div>

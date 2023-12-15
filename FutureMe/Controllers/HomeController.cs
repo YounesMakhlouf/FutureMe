@@ -1,5 +1,4 @@
 ﻿using FutureMe.Models;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

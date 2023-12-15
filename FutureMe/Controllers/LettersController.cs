@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FutureMe.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FutureMe.Models;
 
 namespace FutureMe.Controllers
 {
@@ -16,9 +16,9 @@ namespace FutureMe.Controllers
         // GET: Letters
         public async Task<IActionResult> Index()
         {
-              return _context.Letters != null ? 
-                          View(await _context.Letters.ToListAsync()) :
-                          Problem("Entity set 'AppDbContext.Letters'  is null.");
+            return _context.Letters != null ?
+                        View(await _context.Letters.ToListAsync()) :
+                        Problem("Entity set 'AppDbContext.Letters'  is null.");
         }
 
         // GET: Letters/Details/5

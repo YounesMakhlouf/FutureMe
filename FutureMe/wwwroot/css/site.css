@@ -153,6 +153,11 @@ body{
     overflow-x: clip;
 }
 
+.details-link{
+    color: inherit;
+    text-decoration: none;
+}
+
 ::marker {
     color: var(--clr-accent);
 }

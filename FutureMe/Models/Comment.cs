@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace FutureMe.Models
+﻿namespace FutureMe.Models
 {
     public class Comment
     {

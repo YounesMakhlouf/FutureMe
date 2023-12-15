@@ -38,27 +38,5 @@ namespace FutureMe.Controllers
 
             return View(letter);
         }
-
-        // GET: Letters/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Letters/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,WritingDate,SendingDate,IsPublic,Email,Title")] Letter letter)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(letter);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(letter);
-        }
     }
 }

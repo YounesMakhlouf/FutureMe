@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FutureMe", "FutureMe\FutureMe.csproj", "{9F39265F-03A1-4A2C-B176-46F6611779FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundJobs", "BackgroundJobs\BackgroundJobs.csproj", "{DE48A501-1AA0-4A66-A98A-527B627B7B1F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{9F39265F-03A1-4A2C-B176-46F6611779FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F39265F-03A1-4A2C-B176-46F6611779FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F39265F-03A1-4A2C-B176-46F6611779FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE48A501-1AA0-4A66-A98A-527B627B7B1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE48A501-1AA0-4A66-A98A-527B627B7B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE48A501-1AA0-4A66-A98A-527B627B7B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE48A501-1AA0-4A66-A98A-527B627B7B1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

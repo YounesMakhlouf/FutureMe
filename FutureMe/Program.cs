@@ -5,8 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddInfrastructure();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+// Adding infrastructure-related services using the extension method
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 

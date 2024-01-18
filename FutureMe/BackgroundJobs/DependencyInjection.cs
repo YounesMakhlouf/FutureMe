@@ -18,7 +18,9 @@ namespace FutureMe.BackgroundJobs
                 options.UseMicrosoftDependencyInjectionJobFactory();
                 options.AddJob<EmailSendingBackgroundJob>(jobKey)
                 .AddTrigger(trigger => trigger.ForJob(jobKey)
-                .WithSimpleSchedule(schedule=>schedule.)
+                .WithSimpleSchedule(schedule => schedule
+                    .WithIntervalInSeconds(10)
+                    .RepeatForever()));
                 });
             services.AddQuartzHostedService();
         }

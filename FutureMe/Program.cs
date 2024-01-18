@@ -1,13 +1,12 @@
 using FutureMe.Services.EmailSender;
-using BackgroundJobs;
-
+using FutureMe.BackgroundJobs;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
-// Adding infrastructure-related services using the extension method
-builder.Services.AddInfrastructure();
+// Adding job-related services using the extension method
+builder.Services.AddJobServices();
 
 var app = builder.Build();
 

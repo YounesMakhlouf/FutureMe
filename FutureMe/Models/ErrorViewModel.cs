@@ -1,4 +1,4 @@
-namespace FutureMe.Models
+﻿namespace FutureMe.Models
 {
     public class ErrorViewModel
     {

@@ -14,15 +14,13 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<EmailSendingBackgroundJob>();
 builder.Services.AddSingleton<IJobFactory, JobFactory>();
-builder.Services.AddSingleton<BackgroundJobScheduler>();
 builder.Services.AddHostedService<QuartzHostedService>();
-builder.Services.AddControllersWithViews();
-// Add Quartz services
 builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-
-// Add our job
 builder.Services.AddSingleton(new JobSchedule(
-    jobType: typeof(EmailSendingBackgroundJob))); 
+    jobType: typeof(EmailSendingBackgroundJob)));
+builder.Services.AddControllersWithViews();
+
+
 
 
 var app = builder.Build();

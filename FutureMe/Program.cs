@@ -4,15 +4,26 @@ using FutureMe.BackgroundJobs;
 using Microsoft.EntityFrameworkCore;
 using Quartz.Spi;
 using Quartz;
+using Quartz.Impl;
+using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddSingleton<EmailSendingBackgroundJob>();
 builder.Services.AddSingleton<IJobFactory, JobFactory>();
 builder.Services.AddSingleton<BackgroundJobScheduler>();
+builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+// Add Quartz services
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+
+// Add our job
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(EmailSendingBackgroundJob),
+    cronExpression: "0/5 * * * * ?")); // run every 5 seconds
 
 
 var app = builder.Build();
@@ -35,6 +46,4 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseQuartz();
-
 app.Run();

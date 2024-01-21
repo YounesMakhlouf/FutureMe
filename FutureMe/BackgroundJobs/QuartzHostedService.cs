@@ -56,9 +56,11 @@ namespace FutureMe.BackgroundJobs
             return TriggerBuilder
                 .Create()
                 .WithIdentity($"{schedule.JobType.FullName}.trigger")
-                .WithCronSchedule(schedule.CronExpression)
+                .WithDailyTimeIntervalSchedule(x => x.OnEveryDay().StartingDailyAt(new TimeOfDay(7, 0)).WithRepeatCount(0))
                 .WithDescription(schedule.CronExpression)
                 .Build();
+
+        
         }
     }
 }

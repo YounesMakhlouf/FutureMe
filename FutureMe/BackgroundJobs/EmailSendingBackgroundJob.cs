@@ -23,16 +23,7 @@ namespace FutureMe.BackgroundJobs
         {
             try
             {
-                using (var scope = _provider.CreateScope())
-                {
-                    _appDbContext = scope.ServiceProvider.GetService<AppDbContext>();
-
-                    var letters = GetLetters();
-                    letters.ForEach(letter =>
-                    {
-                        _sender.SendEmailAsync(letter.Email, letter.Title, letter.Content);
-                    });
-                }
+                SendEmails();
             }
             catch (JobExecutionException e)
             {
@@ -44,9 +35,27 @@ namespace FutureMe.BackgroundJobs
         // Temporary function until we merge other branches
         public List<Letter> GetLetters()
         {
-           return _appDbContext.Letters
+            //create scope to access scoped services (dbContext)
+
+            using (var scope = _provider.CreateScope())
+            {
+                _appDbContext = scope.ServiceProvider.GetService<AppDbContext>();
+
+                return _appDbContext.Letters
                 .Where(letter => letter.SendingDate.Date == DateTime.Today)
                 .ToList();
+
+            }
+            
+        }
+
+        public void SendEmails()
+        {
+            var letters = GetLetters();
+            letters.ForEach(letter =>
+            {
+                _sender.SendEmailAsync(letter.Email, letter.Title, letter.Content);
+            });
         }
     }
 }

@@ -22,8 +22,7 @@ builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
 // Add our job
 builder.Services.AddSingleton(new JobSchedule(
-    jobType: typeof(EmailSendingBackgroundJob),
-    cronExpression: "0/5 * * * * ?")); // run every 5 seconds
+    jobType: typeof(EmailSendingBackgroundJob))); 
 
 
 var app = builder.Build();

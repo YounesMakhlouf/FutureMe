@@ -2,14 +2,12 @@
 {
     public class JobSchedule
     {
-        public JobSchedule(Type jobType, string cronExpression)
+        public JobSchedule(Type jobType)
         {
             JobType = jobType;
-            CronExpression = cronExpression;
         }
 
         public Type JobType { get; }
-        public string CronExpression { get; }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FutureMe.Models;
+using Quartz.Impl.AdoJobStore.Common;
 
 namespace FutureMe.Repositories
 {
@@ -20,10 +21,21 @@ namespace FutureMe.Repositories
                 Email = Email,
                 Title = Title,
                 UserId = UserId,
-
             };
             _context.letters.Add(letter);
             _context.SaveChanges();
         }
+
+        public List<Letter> GetTodaysLetters()
+        {
+
+                return _context.letters
+                .Where(letter => letter.SendingDate.Date == DateTime.Today)
+                .ToList();
+
+            
+
+        }
+
     }
 }

@@ -41,7 +41,7 @@ namespace FutureMe.BackgroundJobs
             {
                 _appDbContext = scope.ServiceProvider.GetService<AppDbContext>();
 
-                return _appDbContext.Letters
+                return _appDbContext.letters
                 .Where(letter => letter.SendingDate.Date == DateTime.Today)
                 .ToList();
 

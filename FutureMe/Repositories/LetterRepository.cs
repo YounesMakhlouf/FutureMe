@@ -21,6 +21,7 @@ namespace FutureMe.Repositories
                 Email = Email,
                 Title = Title,
                 UserId = UserId,
+
             };
             _context.letters.Add(letter);
             _context.SaveChanges();

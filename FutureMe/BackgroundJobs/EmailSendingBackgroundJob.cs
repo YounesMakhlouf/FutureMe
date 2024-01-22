@@ -34,7 +34,6 @@ namespace FutureMe.BackgroundJobs
             }
             return Task.CompletedTask;
         }
-        // Temporary function until we merge other branches
         public List<Letter> GetLetters()
         {
 

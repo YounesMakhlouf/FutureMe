@@ -12,7 +12,7 @@
     --clr-accent: hsl(89, 85%, 33%);
     --clr-surface: hsl(0, 0, 100%);
     --clr-secondary: hsl(258, 79%, 34%);
-    --glow-rgb: 237 33 139;
+    --glow-rgb: 117 46 194;
 }
 body {
     font-size: var(--fs-400);
@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: var(--fs-800);
     --flow-space: 2em;
-//    color: var(--clr-primary);
+    cursor: default;
 }
 
 h2 {
@@ -116,6 +116,9 @@ picture {
     max-width: 100%;
     height: auto;
     vertical-align: middle;
+    background-repeat: no-repeat;
+    background-size: cover;
+    shape-margin: 0.75rem;
 }
 
 /* Inherit fonts for inputs and buttons */
@@ -196,7 +199,8 @@ select {
     position: absolute;
     box-shadow: 0rem 0rem 1.2rem 0.6rem rgb(var(--glow-rgb));
     pointer-events: none;
-}
+    opacity: 0.5;
+}   
 
 .star {
     position: absolute;

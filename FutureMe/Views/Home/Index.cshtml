@@ -1,8 +1,75 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model FutureMe.Models.Letter
+
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+   
+    @if (TempData["Success"] != null)
+    {
+        <div class="success">
+            @TempData["Success"]
+        </div>
+    }
+    else
+    {
+        <div class="success" style="display:none">
+        </div>
+    }
+
+    <div class="fixed-image-container">
+        <img src="~/images/pic1.png" alt="Mirror">
+    </div>
+    <div class="cool-text">
+        My Future, 2 Seconds Ago
+    </div>
+    <form asp-action="saveLetter" style="width:15%;margin: 60px auto 0 600px; text-align:left ">
+
+        <div>
+            <textarea id="title" rows="1" cols="" placeholder="Title goes here..." class="titleField" asp-for="Title"></textarea>
+        </div>
+            <div>
+            <textarea id="userText" rows="4" cols="50" placeholder="You'll thank yourself later for this... ♡ " class="user-input" asp-for="Content"></textarea>
+            </div>
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="UserId" value="1" />
+
+        <fieldset>
+            <div style="font-size:large ">One More Step to Go:</div>
+            <div class="form-group row">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
+                <input type="email" class="email" id="email" placeholder="Enter email" asp-for="Email">
+                <small id="emailHelp" class="form-text text-muted">Top Secret <i class="bi bi-emoji-wink-fill"></i></small>
+            </div>
+            <div class="form-group">
+                <label for="date" class="form-label mt-4">Sent Now, Received:</label>
+                <input type="datetime-local" class="form-control" id="date" asp-for="SendingDate">
+            </div>
+            <br />
+            <fieldset class="form-group">
+                <div class="mt-4" style="font-size:large">You want this to be :</div>
+                <br />
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="optionsRadios" asp-for="IsPublic" id="optionsRadios1" value="false" checked="">
+                    <label class="form-check-label" for="optionsRadios1">
+                        Private
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="optionsRadios" asp-for="IsPublic" id="optionsRadios2" value="true">
+                    <label class="form-check-label" for="optionsRadios2">
+                        Public
+                    </label>
+                </div>
+
+            </fieldset>
+            <br />
+
+            <button type="submit" class="btn btn-primary">Send</button>
+        </fieldset>
+    </form>
+
 </div>

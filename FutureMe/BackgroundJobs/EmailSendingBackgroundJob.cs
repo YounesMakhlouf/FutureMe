@@ -1,5 +1,7 @@
 ﻿using FutureMe.Models;
+using FutureMe.Repositories;
 using FutureMe.Services.EmailSender;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Quartz.Impl.AdoJobStore.Common;
@@ -10,14 +12,14 @@ namespace FutureMe.BackgroundJobs
     [DisallowConcurrentExecution]
     public class EmailSendingBackgroundJob : IJob
     {
-        private IEmailSender _sender;
-        private AppDbContext _appDbContext;
-        private readonly IServiceProvider _provider;
+        private readonly IEmailSender _sender;
+        private LetterRepository _repository;
+        private readonly IServiceProvider _serviceProvider;
 
         public EmailSendingBackgroundJob(IEmailSender sender,IServiceProvider provider)
         {
             _sender = sender;
-            _provider = provider;
+            _serviceProvider = provider;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -35,27 +37,24 @@ namespace FutureMe.BackgroundJobs
         // Temporary function until we merge other branches
         public List<Letter> GetLetters()
         {
-            //create scope to access scoped services (dbContext)
 
-            using (var scope = _provider.CreateScope())
-            {
-                _appDbContext = scope.ServiceProvider.GetService<AppDbContext>();
-
-                return _appDbContext.letters
-                .Where(letter => letter.SendingDate.Date == DateTime.Today)
-                .ToList();
-
-            }
+            return _repository.GetTodaysLetters();
+            
             
         }
 
         public void SendEmails()
         {
-            var letters = GetLetters();
-            letters.ForEach(letter =>
+            using (var scope = _serviceProvider.CreateScope())
             {
-                _sender.SendEmailAsync(letter.Email, letter.Title, letter.Content);
-            });
+                _repository = scope.ServiceProvider.GetService<LetterRepository>() ;
+                var letters = GetLetters();
+                letters.ForEach(letter =>
+                {
+                    _sender.SendEmailAsync(letter.Email, letter.Title, letter.Content);
+                });
+            }
+
         }
     }
 }

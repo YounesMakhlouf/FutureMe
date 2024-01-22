@@ -1,5 +1,8 @@
 using FutureMe.Models;
+using FutureMe.Repositories;
 using FutureMe.Services.EmailSender;
+using FutureMe.Services.LetterSaver;
+using Microsoft.EntityFrameworkCore;
 using FutureMe.BackgroundJobs;
 using Microsoft.EntityFrameworkCore;
 using Quartz.Spi;
@@ -10,6 +13,8 @@ using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+));
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<EmailSendingBackgroundJob>();

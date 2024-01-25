@@ -22,7 +22,7 @@ namespace FutureMe.Repositories
                 UserId = UserId,
 
             };
-            _context.letters.Add(letter);
+            _context.Letters.Add(letter);
             _context.SaveChanges();
         }
     }

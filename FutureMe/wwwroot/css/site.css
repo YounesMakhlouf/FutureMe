@@ -262,8 +262,12 @@ select {
         opacity: 0;
     }
 }
-    margin-bottom: 60px;
+
+.main-footer {
+    padding-block: 0.5em;
+    text-align: center;
 }
+
 
 .fixed-image-container {
     position: fixed;

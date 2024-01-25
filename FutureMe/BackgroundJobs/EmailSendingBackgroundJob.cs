@@ -23,6 +23,7 @@ namespace FutureMe.BackgroundJobs
         {
             try
             {
+                Console.WriteLine("kotou");
                 SendEmails();
             }
             catch (JobExecutionException e)
@@ -41,7 +42,7 @@ namespace FutureMe.BackgroundJobs
             {
                 _appDbContext = scope.ServiceProvider.GetService<AppDbContext>();
 
-                return _appDbContext.letters
+                return _appDbContext.Letters
                 .Where(letter => letter.SendingDate.Date == DateTime.Today)
                 .ToList();
 

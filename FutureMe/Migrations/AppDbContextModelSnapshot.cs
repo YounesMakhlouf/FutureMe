@@ -48,7 +48,7 @@ namespace FutureMe.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("comments");
+                    b.ToTable("comments", (string)null);
                 });
 
             modelBuilder.Entity("FutureMe.Models.Letter", b =>
@@ -84,7 +84,7 @@ namespace FutureMe.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Letters");
+                    b.ToTable("letters", (string)null);
                 });
 
             modelBuilder.Entity("FutureMe.Models.User", b =>
@@ -109,7 +109,7 @@ namespace FutureMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("FutureMe.Models.Comment", b =>

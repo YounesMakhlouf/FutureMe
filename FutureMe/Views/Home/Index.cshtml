@@ -20,29 +20,26 @@
     <div class="fixed-image-container">
         <img src="~/images/pic1.png" alt="Mirror">
         <section class="smol-background-picture__content">
-            <div class="cool-text">
-                My Future, 2 Seconds Ago
-            </div>
             <form asp-action="saveLetter" class="grid-container  mt-5">
                 <fieldset class="flow">
                     <input type="text" id="title" rows="1" cols="" placeholder="Title goes here..." class="titleField" asp-for="Title"/>
                     <textarea id="userText" rows="4" cols="50" placeholder="You'll thank yourself later for this... ♡ " class="user-input" asp-for="Content"></textarea>
                 </fieldset>
-                <fieldset>
+                <fieldset class="wrapper">
                     <div>One More Step to Go:</div>
                     <div class="form-group row">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
-                        <input type="email" class="email" id="email" placeholder="Enter email" asp-for="Email">
-                        <small id="emailHelp" class="form-text text-muted">Top Secret <i class="bi bi-emoji-wink-fill"></i></small>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" asp-for="Email">
+                        <small id="emailHelp" class="form-text text-muted">Top Secret <i class="fa-solid fa-face-smile-wink"></i></small>
                     </div>
                     <div class="form-group">
                         <label for="date" class="form-label mt-4">Sent Now, Received:</label>
                         <input type="date" class="form-control" id="date" asp-for="SendingDate">
                     </div>
                     <br />
-                    <fieldset class="form-group">
+                    <fieldset class="form-group flow wrapper">
                         <div class="mt-4" style="font-size:large">You want this to be :</div>
                         <br />
                         <div class="form-check">
@@ -57,11 +54,12 @@
                                 Public
                             </label>
                         </div>
-
+                       
                     </fieldset>
-                    <br />
-
                     <button type="submit" class="btn btn-primary">Send</button>
+                    <div class="cool-text mt-5">
+                        My Future, 2 Seconds Ago
+                    </div>
                 </fieldset>
             </form>
         </section>

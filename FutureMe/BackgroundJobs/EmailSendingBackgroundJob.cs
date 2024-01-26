@@ -16,7 +16,7 @@ namespace FutureMe.BackgroundJobs
         private LetterRepository _repository;
         private readonly IServiceProvider _serviceProvider;
 
-        public EmailSendingBackgroundJob(IEmailSender sender,IServiceProvider provider)
+        public EmailSendingBackgroundJob(IEmailSender sender, IServiceProvider provider)
         {
             _sender = sender;
             _serviceProvider = provider;
@@ -25,13 +25,11 @@ namespace FutureMe.BackgroundJobs
         {
             try
             {
-                Console.WriteLine("kotou");
                 SendEmails();
             }
             catch (JobExecutionException e)
             {
                 throw new JobExecutionException();
-
             }
             return Task.CompletedTask;
         }

@@ -49,7 +49,7 @@ namespace FutureMe.BackgroundJobs
                 var letters = GetLetters();
                 letters.ForEach(letter =>
                 {
-                    _sender.SendEmailAsync(letter.Email, letter.Title, letter.Content);
+                    _sender.SendEmailAsync(letter);
                 });
             }
 

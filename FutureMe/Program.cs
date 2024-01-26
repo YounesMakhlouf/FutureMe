@@ -4,13 +4,11 @@ using FutureMe.Services.EmailSender;
 using FutureMe.Services.LetterSaver;
 using Microsoft.EntityFrameworkCore;
 using FutureMe.BackgroundJobs;
-using Microsoft.EntityFrameworkCore;
 using Quartz.Spi;
 using Quartz;
 using Quartz.Impl;
 using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
 using FutureMe.Services.LetterGetter;
-using FutureMe.Services.LetterSaver;
 using FutureMe.Data;
 using FutureMe.Areas.Identity.Data;
 

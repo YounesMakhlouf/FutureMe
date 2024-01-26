@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using FutureMe.Models;
+using System.Net;
 using System.Net.Mail;
 namespace FutureMe.Services.EmailSender
 {
@@ -10,7 +11,7 @@ namespace FutureMe.Services.EmailSender
         {
             _configuration = configuration;
         }
-        public Task SendEmailAsync(string email, string subject, string message)
+        public Task SendEmailAsync(Letter letter)
         {
             string smtpServer = _configuration["EmailSettings:SmtpServer"];
             int smtpPort = _configuration.GetValue<int>("EmailSettings:SmtpPort");
@@ -20,15 +21,15 @@ namespace FutureMe.Services.EmailSender
 
             var client = new SmtpClient(smtpServer, smtpPort)
             {
-                EnableSsl = true,
+            EnableSsl = true,
             UseDefaultCredentials = false,
             Credentials = new NetworkCredential(userName, password)
         };
             return client.SendMailAsync(
            new MailMessage(from: userName,
-                           to: email,
-                           subject,
-                           message
+                           to: letter.Email,
+                           letter.Title,
+                           letter.Content
                            ));
         }
     }

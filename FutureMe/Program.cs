@@ -1,13 +1,14 @@
 using FutureMe.Models;
 using FutureMe.Repositories;
 using FutureMe.Services.EmailSender;
-using FutureMe.BackgroundJobs;
+using FutureMe.Services.LetterSaver;
 using Microsoft.EntityFrameworkCore;
+using FutureMe.BackgroundJobs;
 using Quartz.Spi;
 using Quartz;
 using Quartz.Impl;
 using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
-using FutureMe.Services.LetterSaver;
+using FutureMe.Services.LetterGetter;
 using FutureMe.Data;
 using FutureMe.Areas.Identity.Data;
 
@@ -24,8 +25,12 @@ builder.Services.AddScoped<LetterRepository, LetterRepository>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddTransient<ILetterSaverService, LetterSaverService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<ILetterSaverService, LetterSaverService>();
+builder.Services.AddScoped<LetterRepository, LetterRepository>();
+builder.Services.AddTransient<ILetterGetter, LetterGetter>();
 builder.Services.AddSingleton<EmailSendingBackgroundJob>();
 builder.Services.AddSingleton<IJobFactory, JobFactory>();
 builder.Services.AddHostedService<QuartzHostedService>();

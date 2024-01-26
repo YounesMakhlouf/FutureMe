@@ -21,9 +21,8 @@
         <section class="smol-background-picture__content">
             <form asp-action="saveLetter" class="grid-container mt-5">
                 <fieldset class="flow">
-                    <input type="text" id="title" rows="1" cols="" placeholder="Title goes here..." class="form-control" asp-for="Title"/>
+                    <input type="text" id="title" rows="1" cols="" placeholder="Title goes here..." class="form-control" asp-for="Title" />
                     <textarea id="userText" rows="20" cols="50" placeholder="You'll thank yourself later for this... ♡ " class="form-control" asp-for="Content"></textarea>
-     
                 </fieldset>
                 <fieldset class="wrapper">
                     <div>One More Step to Go:</div>
@@ -54,7 +53,7 @@
                                 Public
                             </label>
                         </div>
-                       
+
                     </fieldset>
                     <button type="submit" class="btn btn-primary">Send</button>
                     <div class="cool-text mt-5">

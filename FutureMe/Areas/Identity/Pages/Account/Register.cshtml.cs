@@ -14,11 +14,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using FutureMe.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using FutureMe.Services.EmailSender;
+using FutureMe.Models;
 
 namespace FutureMe.Areas.Identity.Pages.Account
 {
@@ -131,9 +132,13 @@ namespace FutureMe.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    Letter letter = new Letter
+                    {
+                        Email = Input.Email,
+                        Content = $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                        Title = "Confirm your email"
+                    };
+                    await _emailSender.SendEmailAsync(letter);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

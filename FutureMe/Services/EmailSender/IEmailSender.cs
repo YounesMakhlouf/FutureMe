@@ -1,7 +1,9 @@
-﻿namespace FutureMe.Services.EmailSender
+﻿using FutureMe.Models;
+
+namespace FutureMe.Services.EmailSender
 {
     public interface IEmailSender
     {
-        Task SendEmailAsync(string email, string subject, string message);
+        Task SendEmailAsync(Letter letter);
     }
 }

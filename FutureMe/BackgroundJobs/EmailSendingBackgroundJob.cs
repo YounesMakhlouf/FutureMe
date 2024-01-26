@@ -14,7 +14,7 @@ namespace FutureMe.BackgroundJobs
         private AppDbContext _appDbContext;
         private readonly IServiceProvider _provider;
 
-        public EmailSendingBackgroundJob(IEmailSender sender,IServiceProvider provider)
+        public EmailSendingBackgroundJob(IEmailSender sender, IServiceProvider provider)
         {
             _sender = sender;
             _provider = provider;
@@ -23,13 +23,11 @@ namespace FutureMe.BackgroundJobs
         {
             try
             {
-                Console.WriteLine("kotou");
                 SendEmails();
             }
             catch (JobExecutionException e)
             {
                 throw new JobExecutionException();
-
             }
             return Task.CompletedTask;
         }
@@ -38,16 +36,13 @@ namespace FutureMe.BackgroundJobs
         {
             //create scope to access scoped services (dbContext)
 
-            using (var scope = _provider.CreateScope())
-            {
-                _appDbContext = scope.ServiceProvider.GetService<AppDbContext>();
+            using var scope = _provider.CreateScope();
+            _appDbContext = scope.ServiceProvider.GetService<AppDbContext>();
 
-                return _appDbContext.Letters
-                .Where(letter => letter.SendingDate.Date == DateTime.Today)
-                .ToList();
+            return _appDbContext.Letters
+            .Where(letter => letter.SendingDate.Date == DateTime.Today)
+            .ToList();
 
-            }
-            
         }
 
         public void SendEmails()

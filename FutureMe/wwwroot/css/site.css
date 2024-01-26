@@ -290,15 +290,14 @@ select {
 
 .cool-text {
     font-weight: bold;
+    width: fit-content;
+    margin-inline: auto;
     font-style: italic;
-    position: fixed;
-    bottom: 50px;
-    right: 230px;
-    padding: 20px;
+    padding: 1em;
     background-color: #FFF;
     color: #4d3838;
     border: 5px solid #473a3a; /* Add a border */
-    border-radius: 10px;
+    border-radius: 0.5rem;
     animation: bounce 1s infinite alternate; /* Apply the bounce animation */
 }
 
@@ -312,21 +311,8 @@ select {
     }
 }
 
-.user-input {
-    color: #000000;
-    width: 600px;
-    height: 500px;
-    background-color: #FFF;
+.form-control {
     border: 4px solid #473a3a; /* Add a border */
-    border-radius: 10px;
-}
-
-.titleField {
-    color: #000000;
-    width: 25em;
-    background-color: #FFF;
-    border: 4px solid #473a3a; /* Add a border */
-    border-radius: 10px;
 }
 
 .success {

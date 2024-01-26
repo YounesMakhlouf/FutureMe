@@ -1,5 +1,5 @@
-﻿using Quartz.Spi;
-using Quartz;
+﻿using Quartz;
+using Quartz.Spi;
 
 namespace FutureMe.BackgroundJobs
 {
@@ -58,8 +58,6 @@ namespace FutureMe.BackgroundJobs
                 .WithIdentity($"{schedule.JobType.FullName}.trigger")
                 .WithSimpleSchedule(x => x.RepeatForever().WithIntervalInHours(24))
                 .Build();
-
-            
         }
     }
 }

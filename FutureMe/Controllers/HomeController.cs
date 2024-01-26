@@ -2,6 +2,7 @@
 using FutureMe.Services.LetterSaver;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace FutureMe.Controllers
 {
@@ -28,14 +29,19 @@ namespace FutureMe.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult saveLetter(string content, DateTime sendingDate, bool IsPublic, string Email, string Title, int UserId)
+        public IActionResult saveLetter([FromForm]Letter letter)
         {
             if (!ModelState.IsValid)
             {
                 return (RedirectToAction(nameof(Index)));
             }
+            if (User.Identity.IsAuthenticated)
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                letter.UserId = Int32.Parse(userId);
+            }
 
-            _letterSaverService.saveLetter(content, sendingDate, IsPublic, Email, Title, UserId);
+            _letterSaverService.saveLetter(letter);
             //TODO:Add success message to view
             TempData["Success"] = "Letter saved successfully !";
             return (RedirectToAction(nameof(Index)));

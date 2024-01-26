@@ -20,7 +20,7 @@ namespace FutureMe.Services.EmailSender
 
             var client = new SmtpClient(smtpServer, smtpPort)
             {
-                EnableSsl = true,
+            EnableSsl = true,
             UseDefaultCredentials = false,
             Credentials = new NetworkCredential(userName, password)
         };

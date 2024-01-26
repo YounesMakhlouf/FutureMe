@@ -10,19 +10,8 @@ namespace FutureMe.Repositories
         {
             _context = context;
         }
-        public void Add(string content,DateTime sendingDate, bool IsPublic, string Email, string Title, int UserId)
+        public void Add(Letter letter) 
         {
-            Letter letter = new Letter()
-            {
-                Content = content,
-                WritingDate = new DateTime(),
-                SendingDate = sendingDate,
-                IsPublic = IsPublic,
-                Email = Email,
-                Title = Title,
-                UserId = UserId,
-
-            };
             _context.Letters.Add(letter);
             _context.SaveChanges();
         }

@@ -16,20 +16,20 @@ namespace FutureMe.Controllers
         // GET: Letters
         public async Task<IActionResult> Index()
         {
-            return _context.letters != null ?
-                        View(await _context.letters.ToListAsync()) :
+            return _context.Letters != null ?
+                        View(await _context.Letters.ToListAsync()) :
                         Problem("Entity set 'AppDbContext.Letters'  is null.");
         }
 
         // GET: Letters/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.letters == null)
+            if (id == null || _context.Letters == null)
             {
                 return NotFound();
             }
 
-            var letter = await _context.letters
+            var letter = await _context.Letters
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (letter == null)
             {

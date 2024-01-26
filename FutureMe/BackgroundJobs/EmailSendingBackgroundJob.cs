@@ -25,6 +25,7 @@ namespace FutureMe.BackgroundJobs
         {
             try
             {
+                Console.WriteLine("kotou");
                 SendEmails();
             }
             catch (JobExecutionException e)

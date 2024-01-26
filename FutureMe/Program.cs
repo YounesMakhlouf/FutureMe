@@ -11,8 +11,6 @@ using Quartz.Impl;
 using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
 using FutureMe.Services.LetterGetter;
 using FutureMe.Services.LetterSaver;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using FutureMe.Data;
 using FutureMe.Areas.Identity.Data;
 

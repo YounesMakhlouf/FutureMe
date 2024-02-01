@@ -14,11 +14,11 @@ namespace FutureMe.Services.LetterGetter
         public List<Letter> GetTodaysLetters()
         {
             return _repository.GetTodaysLetters(); ;
-            
 
-            }
 
         }
 
     }
+
+}
 

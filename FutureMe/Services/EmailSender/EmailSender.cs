@@ -17,14 +17,14 @@ namespace FutureMe.Services.EmailSender
             int smtpPort = _configuration.GetValue<int>("EmailSettings:SmtpPort");
             string userName = _configuration["EmailSettings:UserName"];
             string password = _configuration["EmailSettings:Password"];
-            
+
 
             var client = new SmtpClient(smtpServer, smtpPort)
             {
-            EnableSsl = true,
-            UseDefaultCredentials = false,
-            Credentials = new NetworkCredential(userName, password)
-        };
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(userName, password)
+            };
             return client.SendMailAsync(
            new MailMessage(from: userName,
                            to: letter.Email,

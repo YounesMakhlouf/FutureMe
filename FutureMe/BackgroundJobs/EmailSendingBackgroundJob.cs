@@ -1,11 +1,7 @@
 ﻿using FutureMe.Models;
 using FutureMe.Repositories;
 using FutureMe.Services.EmailSender;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
-using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Quartz.Impl.AdoJobStore.Common;
-using System.Diagnostics.Metrics;
 
 namespace FutureMe.BackgroundJobs
 {
@@ -35,24 +31,18 @@ namespace FutureMe.BackgroundJobs
         }
         public List<Letter> GetLetters()
         {
-
             return _repository.GetTodaysLetters();
-            
-            
         }
 
         public void SendEmails()
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using var scope = _serviceProvider.CreateScope();
+            _repository = scope.ServiceProvider.GetService<LetterRepository>();
+            var letters = GetLetters();
+            letters.ForEach(letter =>
             {
-                _repository = scope.ServiceProvider.GetService<LetterRepository>() ;
-                var letters = GetLetters();
-                letters.ForEach(letter =>
-                {
-                    _sender.SendEmailAsync(letter);
-                });
-            }
-
+                _sender.SendEmailAsync(letter);
+            });
         }
     }
 }

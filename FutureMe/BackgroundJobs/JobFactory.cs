@@ -1,22 +1,20 @@
 ﻿using Quartz;
-using Quartz.Impl;
-using Quartz.Simpl;
 using Quartz.Spi;
-using System.ComponentModel;
 
 namespace FutureMe.BackgroundJobs
 {
-    public class JobFactory :  IJobFactory
+    public class JobFactory : IJobFactory
     {
         //provider is an instance of a service provider or dependency injection container.
         private readonly IServiceProvider _provider;
 
-        public JobFactory(IServiceProvider provider) {
+        public JobFactory(IServiceProvider provider)
+        {
             _provider = provider;
         }
 
 
-       public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
+        public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
             try
             {

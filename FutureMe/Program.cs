@@ -1,16 +1,16 @@
+using FutureMe.Areas.Identity.Data;
+using FutureMe.BackgroundJobs;
+using FutureMe.Data;
 using FutureMe.Models;
 using FutureMe.Repositories;
 using FutureMe.Services.EmailSender;
+using FutureMe.Services.LetterGetter;
 using FutureMe.Services.LetterSaver;
 using Microsoft.EntityFrameworkCore;
-using FutureMe.BackgroundJobs;
-using Quartz.Spi;
 using Quartz;
 using Quartz.Impl;
+using Quartz.Spi;
 using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
-using FutureMe.Services.LetterGetter;
-using FutureMe.Data;
-using FutureMe.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -55,7 +55,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+app.UseAuthentication(); ;
 
 app.UseAuthorization();
 

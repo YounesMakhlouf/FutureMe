@@ -11,7 +11,7 @@ namespace FutureMe.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ILetterSaverService _letterSaverService;
 
-        public HomeController(ILogger<HomeController> logger,ILetterSaverService letterSaverService)
+        public HomeController(ILogger<HomeController> logger, ILetterSaverService letterSaverService)
         {
             _logger = logger;
             _letterSaverService = letterSaverService;
@@ -29,7 +29,7 @@ namespace FutureMe.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult saveLetter([FromForm]Letter letter)
+        public IActionResult saveLetter([FromForm] Letter letter)
         {
             if (!ModelState.IsValid)
             {

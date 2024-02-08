@@ -60,9 +60,11 @@ namespace FutureMe.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPublic")
@@ -72,9 +74,10 @@ namespace FutureMe.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("WritingDate")
@@ -85,6 +88,30 @@ namespace FutureMe.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("letters", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Dear future me, I hope you are doing well and have achieved your goals. I am writing this letter to remind you of the things that matter to you and to encourage you to keep going. Remember to be grateful for what you have, to be kind to yourself and others, and to enjoy the present moment. You have come a long way and I am proud of you. Love, your past self.",
+                            Email = "user1@example.com",
+                            IsPublic = true,
+                            SendingDate = new DateTime(2024, 12, 9, 12, 1, 23, 0, DateTimeKind.Local),
+                            Title = "A letter to myself",
+                            UserId = 0,
+                            WritingDate = new DateTime(2023, 12, 9, 12, 1, 23, 0, DateTimeKind.Local)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Hello future me, I am writing this letter to tell you that you are awesome and that you can do anything you set your mind to. I know you have faced many challenges and overcome many obstacles, but you never gave up. You are strong, resilient, and courageous. I want you to remember that you are not alone, that you have people who love you and support you. I also want you to have fun and enjoy life, because you deserve it. You are amazing and I love you. Sincerely, your past self.",
+                            Email = "user2@example.com",
+                            IsPublic = false,
+                            SendingDate = new DateTime(2025, 12, 9, 12, 1, 23, 0, DateTimeKind.Local),
+                            Title = "A letter to myself",
+                            UserId = 0,
+                            WritingDate = new DateTime(2023, 12, 9, 12, 1, 23, 0, DateTimeKind.Local)
+                        });
                 });
 
             modelBuilder.Entity("FutureMe.Models.User", b =>
@@ -131,7 +158,9 @@ namespace FutureMe.Migrations
                 {
                     b.HasOne("FutureMe.Models.User", "User")
                         .WithMany("Letters")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

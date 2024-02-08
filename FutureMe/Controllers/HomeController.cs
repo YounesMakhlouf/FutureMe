@@ -29,7 +29,7 @@ namespace FutureMe.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult saveLetter([FromForm] Letter letter)
+        public IActionResult SaveLetter([FromForm] Letter letter)
         {
             if (!ModelState.IsValid)
             {
@@ -42,13 +42,8 @@ namespace FutureMe.Controllers
             }
 
             _letterSaverService.saveLetter(letter);
-            //TODO:Add success message to view
             TempData["Success"] = "Letter saved successfully !";
             return (RedirectToAction(nameof(Index)));
-
-
         }
-
-
     }
 }

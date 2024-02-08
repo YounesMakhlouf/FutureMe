@@ -17,14 +17,9 @@ namespace FutureMe.Repositories
 
         public List<Letter> GetTodaysLetters()
         {
-
             return _context.Letters
             .Where(letter => letter.SendingDate.Date == DateTime.Today)
             .ToList();
-
-
-
         }
-
     }
 }

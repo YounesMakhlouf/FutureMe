@@ -18,7 +18,6 @@ namespace FutureMe.BackgroundJobs
         {
             try
             {
-
                 return _provider.GetRequiredService(bundle.JobDetail.JobType) as IJob;
             }
             catch (Exception ex)

@@ -16,8 +16,8 @@ namespace FutureMe.Controllers
         // GET: Letters
         public async Task<IActionResult> Index()
         {
-            return _context.Letters != null ?
-                        View(await _context.Letters.ToListAsync()) :
+            return _context.Letters.Where(letter => letter.IsPublic == true) != null ?
+                        View(await _context.Letters.Where(letter => letter.IsPublic == true).ToListAsync()) :
                         Problem("Entity set 'AppDbContext.Letters'  is null.");
         }
 

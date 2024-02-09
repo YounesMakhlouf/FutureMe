@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label for="date" class="form-label mt-4">Sent Now, Received:</label>
                         <input type="date" class="form-control" id="date" asp-for="SendingDate" min=@DateTime.Now>
-                        <div>@Html.ValidationMessageFor(model => model.SendingDate)</div>
+                        <div asp-validation-for="SendingDate"></div>
                     </div>
                     <fieldset class="form-group flow wrapper">
                         <div class="mt-4">You want this to be :</div>

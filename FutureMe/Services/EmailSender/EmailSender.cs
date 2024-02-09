@@ -25,11 +25,13 @@ namespace FutureMe.Services.EmailSender
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(userName, password)
             };
-            return client.SendMailAsync(
+
+           var content = $"A message, carefully penned on {letter.WritingDate.Date}, has embarked on a journey through time. Today, it arrives, carrying words from your yesterdays.\n{letter.Content}";
+           return client.SendMailAsync(
            new MailMessage(from: userName,
                            to: letter.Email,
                            letter.Title,
-                           letter.Content
+                           content
                            ));
         }
     }

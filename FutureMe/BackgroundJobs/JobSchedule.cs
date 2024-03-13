@@ -8,6 +8,5 @@
         }
 
         public Type JobType { get; }
-
     }
 }

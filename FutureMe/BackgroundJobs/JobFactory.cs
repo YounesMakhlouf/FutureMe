@@ -13,7 +13,6 @@ namespace FutureMe.BackgroundJobs
             _provider = provider;
         }
 
-
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
             try

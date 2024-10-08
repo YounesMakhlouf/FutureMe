@@ -8,16 +8,20 @@ namespace FutureMe.BackgroundJobs
         private readonly ISchedulerFactory _schedulerFactory;
         private readonly IJobFactory _jobFactory;
         private readonly IEnumerable<JobSchedule> _jobSchedules;
+        private readonly ILogger<QuartzHostedService> _logger;
 
         public QuartzHostedService(
             ISchedulerFactory schedulerFactory,
             IJobFactory jobFactory,
-            IEnumerable<JobSchedule> jobSchedules)
+            IEnumerable<JobSchedule> jobSchedules,
+            ILogger<QuartzHostedService> logger)
         {
             _schedulerFactory = schedulerFactory;
             _jobSchedules = jobSchedules;
             _jobFactory = jobFactory;
+            _logger = logger;
         }
+
         public IScheduler Scheduler { get; set; }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -34,11 +38,20 @@ namespace FutureMe.BackgroundJobs
             }
 
             await Scheduler.Start(cancellationToken);
+
+            _logger.LogInformation("Quartz Hosted Service started.");
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            await Scheduler?.Shutdown(cancellationToken);
+            _logger.LogInformation("Quartz Hosted Service is stopping.");
+
+            if (Scheduler != null)
+            {
+                await Scheduler.Shutdown(cancellationToken);
+            }
+
+            _logger.LogInformation("Quartz Hosted Service stopped.");
         }
 
         private static IJobDetail CreateJob(JobSchedule schedule)
@@ -56,7 +69,8 @@ namespace FutureMe.BackgroundJobs
             return TriggerBuilder
                 .Create()
                 .WithIdentity($"{schedule.JobType.FullName}.trigger")
-                .WithSimpleSchedule(x => x.RepeatForever().WithIntervalInHours(24))
+                .WithCronSchedule(schedule.CronExpression)
+                .WithDescription(schedule.CronExpression)
                 .Build();
         }
     }

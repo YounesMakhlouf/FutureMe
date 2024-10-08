@@ -5,12 +5,13 @@ namespace FutureMe.BackgroundJobs
 {
     public class JobFactory : IJobFactory
     {
-        //provider is an instance of a service provider or dependency injection container.
         private readonly IServiceProvider _provider;
+        private readonly ILogger<JobFactory> _logger;
 
-        public JobFactory(IServiceProvider provider)
+        public JobFactory(IServiceProvider provider, ILogger<JobFactory> logger)
         {
             _provider = provider;
+            _logger = logger;
         }
 
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
@@ -21,12 +22,17 @@ namespace FutureMe.BackgroundJobs
             }
             catch (Exception ex)
             {
-                throw new Exception("problem while creating job");
+                _logger.LogError(ex, "Error creating job instance for {JobType}", bundle.JobDetail.JobType.FullName);
+                throw new SchedulerException($"Problem while creating job '{bundle.JobDetail.Key}'", ex);
             }
         }
 
         public void ReturnJob(IJob job)
         {
+            if (job is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }

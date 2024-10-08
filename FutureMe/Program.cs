@@ -38,7 +38,9 @@ builder.Services.AddSingleton<IJobFactory, JobFactory>();
 builder.Services.AddSingleton<EmailSendingBackgroundJob>();
 builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddSingleton(new JobSchedule(
-    jobType: typeof(EmailSendingBackgroundJob)));
+    jobType: typeof(EmailSendingBackgroundJob),
+    cronExpression: "0 0 0 * * ?" // Every day at midnight (Cron expression)
+));
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>

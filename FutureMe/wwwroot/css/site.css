@@ -14,6 +14,7 @@
     --clr-secondary: hsl(258, 79%, 34%);
     --glow-rgb: 117 46 194;
 }
+
 body {
     font-size: var(--fs-400);
     font-family: var(--ff-base);
@@ -330,8 +331,6 @@ select {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
 }
 
-
-/* Necessary if not already within a reset */
 .fixed-image-container :is(img, picture) {
 display: block;
 }

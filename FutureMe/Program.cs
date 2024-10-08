@@ -1,11 +1,11 @@
 using FutureMe.Areas.Identity.Data;
 using FutureMe.BackgroundJobs;
-using FutureMe.Data;
 using FutureMe.Models;
 using FutureMe.Repositories;
 using FutureMe.Services.EmailSender;
 using FutureMe.Services.LetterGetter;
 using FutureMe.Services.LetterSaver;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Quartz.Impl;
@@ -13,14 +13,16 @@ using Quartz.Spi;
 using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Configure the database context
-builder.Services.AddDbContext<DataContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure Identity
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
-options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 // Add MVC and Razor Pages
 builder.Services.AddControllersWithViews();
@@ -39,14 +41,8 @@ builder.Services.AddSingleton<EmailSendingBackgroundJob>();
 builder.Services.AddHostedService<QuartzHostedService>();
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(EmailSendingBackgroundJob),
-    cronExpression: "0 0 0 * * ?" // Every day at midnight (Cron expression)
+    cronExpression: "* * * * * ?" // Every day at midnight (Cron expression)
 ));
-
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-));
-
 
 var app = builder.Build();
 

@@ -1,42 +1,60 @@
 ﻿using FutureMe.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using FutureMe.Repositories;
 
 namespace FutureMe.Controllers
 {
     public class LettersController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ILetterRepository _letterRepository;
+        private readonly ILogger<LettersController> _logger;
 
-        public LettersController(AppDbContext context)
+        public LettersController(ILetterRepository letterRepository, ILogger<LettersController> logger)
         {
-            _context = context;
+            _letterRepository = letterRepository;
+            _logger = logger;
         }
 
         // GET: Letters
         public async Task<IActionResult> Index()
         {
-            return _context.Letters.Where(letter => letter.IsPublic == true) != null ?
-                        View(await _context.Letters.Where(letter => letter.IsPublic == true).ToListAsync()) :
-                        Problem("Entity set 'AppDbContext.Letters'  is null.");
+            try
+            {
+                var letters = await _letterRepository.GetPublicLettersAsync();
+                return View(letters);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving public letters.");
+                return StatusCode(500, "An error occurred while retrieving letters.");
+            }
         }
 
         // GET: Letters/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Letters == null)
+            if (id == null)
             {
-                return NotFound();
+                return BadRequest("Letter ID is required.");
             }
 
-            var letter = await _context.Letters
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (letter == null)
+            try
             {
-                return NotFound();
-            }
+                var letter = await _letterRepository.GetLetterByIdAsync(id.Value);
+                if (letter == null || !letter.IsPublic)
+                {
+                    return NotFound();
+                }
 
-            return View(letter);
+                return View(letter);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving letter with ID {LetterId}.", id);
+                return StatusCode(500, "An error occurred while retrieving the letter.");
+            }
         }
     }
 }

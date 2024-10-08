@@ -1,9 +1,5 @@
 ﻿using FutureMe.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FutureMe.Repositories
 {
@@ -36,6 +32,13 @@ namespace FutureMe.Repositories
                 .Where(letter => letter.IsPublic)
                 .OrderByDescending(letter => letter.WritingDate)
                 .ToListAsync();
+        }
+
+        public async Task<Letter> GetLetterByIdAsync(int id)
+        {
+            return await _context.Letters
+                .AsNoTracking()
+                .FirstOrDefaultAsync(letter => letter.Id == id);
         }
     }
 }

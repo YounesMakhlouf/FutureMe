@@ -7,9 +7,6 @@ namespace FutureMe.BackgroundJobs
     [DisallowConcurrentExecution]
     public class EmailSendingBackgroundJob : IJob
     {
-        private readonly IEmailSender _sender;
-        private LetterRepository _repository;
-
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<EmailSendingBackgroundJob> _logger;
 

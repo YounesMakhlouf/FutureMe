@@ -1,8 +1,10 @@
 ﻿using FutureMe.Models;
 using FutureMe.Services.LetterSaver;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace FutureMe.Controllers
 {
@@ -19,7 +21,7 @@ namespace FutureMe.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new Letter());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -27,23 +29,35 @@ namespace FutureMe.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SaveLetter([FromForm] Letter letter)
+        public async Task<IActionResult> SaveLetter([Bind("Title,Content,Email,SendingDate,IsPublic")] Letter letter)
         {
             if (!ModelState.IsValid)
             {
-                return (RedirectToAction(nameof(Index)));
+                return View("Index", letter);
             }
             if (User.Identity.IsAuthenticated)
             {
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                letter.UserId = Int32.Parse(userId);
+                letter.UserId = userId;
             }
 
-            _letterSaverService.SaveLetterAsync(letter);
-            TempData["Success"] = "Letter saved successfully !";
-            return (RedirectToAction(nameof(Index)));
+            letter.WritingDate = DateTime.UtcNow;
+            try
+            {
+                await _letterSaverService.SaveLetterAsync(letter);
+                TempData["Success"] = "Letter saved successfully!";
+                _logger.LogInformation("Letter saved successfully for Email: {Email}", letter.Email);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error saving letter for Email: {Email}", letter.Email);
+                ModelState.AddModelError(string.Empty, "An error occurred while saving the letter. Please try again.");
+                return View("Index", letter);
+            }
         }
     }
 }

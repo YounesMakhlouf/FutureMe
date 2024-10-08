@@ -1,38 +1,76 @@
 ﻿using FutureMe.Models;
-using System.Net;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+
 namespace FutureMe.Services.EmailSender
 {
     public class EmailSender : IEmailSender
     {
-        private readonly IConfiguration _configuration;
+        private readonly EmailSettings _emailSettings;
+        private readonly ILogger<EmailSender> _logger;
 
-        public EmailSender(IConfiguration configuration)
+        public EmailSender(IConfiguration configuration, ILogger<EmailSender> logger)
         {
-            _configuration = configuration;
+            _emailSettings = configuration.GetSection("EmailSettings").Get<EmailSettings>();
+            _logger = logger;
         }
-        public Task SendEmailAsync(Letter letter)
+
+
+        public async Task SendEmailAsync(Letter letter)
         {
-            string smtpServer = _configuration["EmailSettings:SmtpServer"];
-            int smtpPort = _configuration.GetValue<int>("EmailSettings:SmtpPort");
-            string userName = _configuration["EmailSettings:UserName"];
-            string password = _configuration["EmailSettings:Password"];
-
-
-            var client = new SmtpClient(smtpServer, smtpPort)
+            try
             {
-                EnableSsl = true,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(userName, password)
+                var emailMessage = CreateEmailMessage(letter);
+
+                using var smtpClient = new SmtpClient();
+                await smtpClient.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.SmtpPort, SecureSocketOptions.StartTls).ConfigureAwait(false);
+                await smtpClient.AuthenticateAsync(_emailSettings.UserName, _emailSettings.Password).ConfigureAwait(false);
+                await smtpClient.SendAsync(emailMessage).ConfigureAwait(false);
+                await smtpClient.DisconnectAsync(true).ConfigureAwait(false);
+
+                _logger.LogInformation("Email sent successfully to {Email}", letter.Email);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while sending email to {Email}", letter.Email);
+                throw;
+            }
+        }
+
+        private MimeMessage CreateEmailMessage(Letter letter)
+        {
+            var emailMessage = new MimeMessage();
+
+            emailMessage.From.Add(new MailboxAddress("FutureMe", _emailSettings.UserName));
+            emailMessage.To.Add(new MailboxAddress("", letter.Email));
+            emailMessage.Subject = letter.Title;
+
+            var bodyBuilder = new BodyBuilder
+            {
+                TextBody = $@"
+Dear Time Traveler,
+
+Greetings from your past self!
+
+On {letter.WritingDate.ToString("D")}, you wrote a letter filled with thoughts, hopes, and reflections. Today, it's time to revisit those words and see how far you've come.
+
+---
+
+{letter.Content}
+
+---
+
+Cherish these memories, and keep moving forward!
+
+Warm regards,
+Your Past Self
+"
             };
 
-           var content = $"A message, carefully penned on {letter.WritingDate.Date}, has embarked on a journey through time. Today, it arrives, carrying words from your yesterdays.\n{letter.Content}";
-           return client.SendMailAsync(
-           new MailMessage(from: userName,
-                           to: letter.Email,
-                           letter.Title,
-                           content
-                           ));
+            emailMessage.Body = bodyBuilder.ToMessageBody();
+
+            return emailMessage;
         }
     }
 }

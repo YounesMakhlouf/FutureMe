@@ -5,20 +5,16 @@ namespace FutureMe.Services.LetterGetter
 {
     public class LetterGetter : ILetterGetter
     {
-        private readonly LetterRepository _repository;
+        private readonly ILetterRepository _repository;
 
-        public LetterGetter(LetterRepository repository)
+        public LetterGetter(ILetterRepository repository)
         {
             _repository = repository;
         }
-        public List<Letter> GetTodaysLetters()
+
+        public async Task<List<Letter>> GetTodaysLettersAsync()
         {
-            return _repository.GetTodaysLetters(); ;
-
-
+            return await _repository.GetTodaysLettersAsync();
         }
-
     }
-
 }
-

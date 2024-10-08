@@ -1,57 +1,81 @@
-﻿@{
+﻿@model FutureMe.Models.Letter
+
+@{
     ViewData["Title"] = "Home Page";
 }
-@model FutureMe.Models.Letter
 
-    <div class="fixed-image-container">
-        @if (TempData["Success"] != null)
+<div class="fixed-image-container">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["Success"]
+        </div>
+    }
+    <img src="~/images/pic1.png" alt="Mirror">
+    <section class="smol-background-picture__content">
+        @using (Html.BeginForm("SaveLetter", "Home", FormMethod.Post, new { @class = "grid-container mt-5" }))
         {
-            <div class="success text-center">
-                @TempData["Success"]
-            </div>
-        }
-        <img src="~/images/pic1.png" alt="Mirror">
-        <section class="smol-background-picture__content">
-            <form asp-action="saveLetter" class="grid-container mt-5">
-                <fieldset class="flow">
-                    <input type="text" id="title" rows="1" cols="" placeholder="Title goes here..." class="form-control" asp-for="Title" />
-                    <textarea id="userText" rows="20" cols="50" placeholder="You'll thank yourself later for this... ♡ " class="form-control" asp-for="Content"></textarea>
-                </fieldset>
-                <fieldset class="wrapper">
-                    <div>One More Step to Go:</div>
-                    <div class="form-group row">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" asp-for="Email">
-                        <small id="emailHelp" class="form-text text-muted">Top Secret <i class="fa-solid fa-face-smile-wink"></i></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="date" class="form-label mt-4">Sent Now, Received:</label>
-                        <input type="date" class="form-control" id="date" asp-for="SendingDate" min=@DateTime.Now>
-                        <div asp-validation-for="SendingDate"></div>
-                    </div>
-                    <fieldset class="form-group flow wrapper">
-                        <div class="mt-4">You want this to be :</div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="radio" name="IsPublic" asp-for="IsPublic" id="optionsRadios1" value="false" checked>
-                            <label class="form-check-label" for="optionsRadios1">
-                                Private
-                            </label>
-                        </div>
-                        <div class="form-check">
-                        <input class="form-check-input" type="radio" name="IsPublic" asp-for="IsPublic" id="optionsRadios2" value="true">
-                            <label class="form-check-label" for="optionsRadios2">
-                                Public
-                            </label>
-                        </div>
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    </fieldset>
-                    <button type="submit" class="btn btn-primary">Send</button>
-                    <div class="cool-text mt-5">
-                        My Future, 2 Seconds Ago
+            <!-- Letter Details Fieldset -->
+            <fieldset class="flow">
+                <legend class="mb-3">Compose Your Letter</legend>
+
+                <div class="form-group">
+                    <label asp-for="Title" class="form-label mt-4"></label>
+                    <input asp-for="Title" class="form-control" placeholder="Title goes here..." />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Content" class="form-label mt-4"></label>
+                    <textarea asp-for="Content" rows="10" class="form-control" placeholder="You'll thank yourself later for this... ♡"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+            </fieldset>
+
+            <!-- Additional Details Fieldset -->
+            <fieldset class="wrapper">
+                <legend class="mb-3">One More Step to Go:</legend>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label mt-4"></label>
+                    <input asp-for="Email" class="form-control" placeholder="Enter email" />
+                    <small id="emailHelp" class="form-text text-muted">
+                        Top Secret <i class="fa-solid fa-face-smile-wink"></i>
+                    </small>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SendingDate" class="form-label mt-4"></label>
+                    <input asp-for="SendingDate" class="form-control" type="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="SendingDate" class="text-danger"></span>
+                </div>
+
+                <fieldset class="form-group flow wrapper">
+                    <legend class="mt-4">Visibility:</legend>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="IsPublic" id="privateOption" value="false" />
+                        <label class="form-check-label" for="privateOption">
+                            Private
+                        </label>
                     </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="IsPublic" id="publicOption" value="true" />
+                        <label class="form-check-label" for="publicOption">
+                            Public
+                        </label>
+                    </div>
+                    <span asp-validation-for="IsPublic" class="text-danger"></span>
                 </fieldset>
-            </form>
-        </section>
-    </div>
+
+                <button type="submit" class="btn btn-primary mt-4">Send</button>
+                <div class="cool-text mt-5">
+                    My Future, 2 Seconds Ago
+                </div>
+            </fieldset>
+        }
+    </section>
+</div>

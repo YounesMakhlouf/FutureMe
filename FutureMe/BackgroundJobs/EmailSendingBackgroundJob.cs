@@ -1,5 +1,4 @@
-﻿using FutureMe.Models;
-using FutureMe.Repositories;
+﻿using FutureMe.Repositories;
 using FutureMe.Services.EmailSender;
 using Quartz;
 
@@ -10,39 +9,49 @@ namespace FutureMe.BackgroundJobs
     {
         private readonly IEmailSender _sender;
         private LetterRepository _repository;
-        private readonly IServiceProvider _serviceProvider;
 
-        public EmailSendingBackgroundJob(IEmailSender sender, IServiceProvider provider)
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<EmailSendingBackgroundJob> _logger;
+
+        public EmailSendingBackgroundJob(IServiceProvider serviceProvider, ILogger<EmailSendingBackgroundJob> logger)
         {
-            _sender = sender;
-            _serviceProvider = provider;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
         }
-        public Task Execute(IJobExecutionContext context)
+
+        public async Task Execute(IJobExecutionContext context)
         {
+            _logger.LogInformation("EmailSendingBackgroundJob started at {Time}", DateTime.UtcNow);
             try
             {
-                SendEmails();
-            }
-            catch (JobExecutionException e)
-            {
-                throw new JobExecutionException();
-            }
-            return Task.CompletedTask;
-        }
-        public List<Letter> GetLetters()
-        {
-            return _repository.GetTodaysLetters();
-        }
+                using var scope = _serviceProvider.CreateScope();
+                var letterRepository = scope.ServiceProvider.GetRequiredService<ILetterRepository>();
+                var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
 
-        public void SendEmails()
-        {
-            using var scope = _serviceProvider.CreateScope();
-            _repository = scope.ServiceProvider.GetService<LetterRepository>();
-            var letters = GetLetters();
-            letters.ForEach(letter =>
+                var letters = await letterRepository.GetTodaysLettersAsync();
+
+                var emailTasks = letters.Select(async letter =>
+                {
+                    try
+                    {
+                        await emailSender.SendEmailAsync(letter);
+                        _logger.LogInformation("Email sent to {Email}", letter.Email);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error sending email to {Email}", letter.Email);
+                    }
+                });
+
+                await Task.WhenAll(emailTasks);
+            }
+            catch (Exception ex)
             {
-                _sender.SendEmailAsync(letter);
-            });
+                _logger.LogError(ex, "An error occurred while executing EmailSendingBackgroundJob");
+                throw new JobExecutionException(ex);
+            }
+
+            _logger.LogInformation("EmailSendingBackgroundJob finished at {Time}", DateTime.UtcNow);
         }
     }
 }

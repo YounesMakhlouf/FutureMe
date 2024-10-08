@@ -13,31 +13,37 @@ using Quartz.Spi;
 using QuartzHostedService = FutureMe.BackgroundJobs.QuartzHostedService;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
+// Configure the database context
 builder.Services.AddDbContext<DataContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-));
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure Identity
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
+options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<DataContext>();
+
+// Add MVC and Razor Pages
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<LetterRepository, LetterRepository>();
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+// Register application services
+builder.Services.AddScoped<ILetterRepository, LetterRepository>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddTransient<ILetterSaverService, LetterSaverService>();
+builder.Services.AddTransient<ILetterGetter, LetterGetter>();
+
+// Configure Quartz for background jobs
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+builder.Services.AddSingleton<IJobFactory, JobFactory>();
+builder.Services.AddSingleton<EmailSendingBackgroundJob>();
+builder.Services.AddHostedService<QuartzHostedService>();
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(EmailSendingBackgroundJob)));
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
 ));
-builder.Services.AddTransient<IEmailSender, EmailSender>();
-builder.Services.AddTransient<ILetterSaverService, LetterSaverService>();
-builder.Services.AddScoped<LetterRepository, LetterRepository>();
-builder.Services.AddTransient<ILetterGetter, LetterGetter>();
-builder.Services.AddSingleton<EmailSendingBackgroundJob>();
-builder.Services.AddSingleton<IJobFactory, JobFactory>();
-builder.Services.AddHostedService<QuartzHostedService>();
-builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-builder.Services.AddSingleton(new JobSchedule(
-    jobType: typeof(EmailSendingBackgroundJob)));
-builder.Services.AddControllersWithViews();
 
 
 var app = builder.Build();
@@ -46,7 +52,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -54,8 +59,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication(); ;
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

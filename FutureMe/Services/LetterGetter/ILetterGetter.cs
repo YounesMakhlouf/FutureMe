@@ -4,6 +4,6 @@ namespace FutureMe.Services.LetterGetter
 {
     public interface ILetterGetter
     {
-        public List<Letter> GetTodaysLetters();
+        Task<List<Letter>> GetTodaysLettersAsync();
     }
 }

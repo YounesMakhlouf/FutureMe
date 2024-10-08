@@ -5,14 +5,16 @@ namespace FutureMe.Services.LetterSaver
 {
     public class LetterSaverService : ILetterSaverService
     {
-        private readonly LetterRepository _letterRepository;
-        public LetterSaverService(LetterRepository letterRepository)
+        private readonly ILetterRepository _letterRepository;
+
+        public LetterSaverService(ILetterRepository letterRepository)
         {
             _letterRepository = letterRepository;
         }
-        public void saveLetter(Letter letter)
+
+        public async Task SaveLetterAsync(Letter letter)
         {
-            _letterRepository.Add(letter);
+            await _letterRepository.AddAsync(letter);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace FutureMe.Controllers
                 letter.UserId = Int32.Parse(userId);
             }
 
-            _letterSaverService.saveLetter(letter);
+            _letterSaverService.SaveLetterAsync(letter);
             TempData["Success"] = "Letter saved successfully !";
             return (RedirectToAction(nameof(Index)));
         }

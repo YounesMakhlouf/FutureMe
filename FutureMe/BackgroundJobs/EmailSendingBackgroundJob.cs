@@ -25,20 +25,22 @@ namespace FutureMe.BackgroundJobs
                 var letterRepository = scope.ServiceProvider.GetRequiredService<ILetterRepository>();
                 var emailSender = scope.ServiceProvider.GetRequiredService<IEmailSender>();
 
-                var letters = await letterRepository.GetTodaysLettersAsync();
+                var letters = await letterRepository.GetUnsentLettersAsync();
 
                 var emailTasks = letters.Select(async letter =>
-                {
-                    try
                     {
-                        await emailSender.SendEmailAsync(letter);
-                        _logger.LogInformation("Email sent to {Email}", letter.Email);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Error sending email to {Email}", letter.Email);
-                    }
-                });
+                        try
+                        {
+                            await emailSender.SendEmailAsync(letter);
+                            letter.IsSent = true;
+                            await letterRepository.UpdateAsync(letter);
+                            _logger.LogInformation("Email sent to {Email}", letter.Email);
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error sending email to {Email}", letter.Email);
+                        }
+                    });
 
                 await Task.WhenAll(emailTasks);
             }

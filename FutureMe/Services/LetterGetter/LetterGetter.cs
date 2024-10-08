@@ -12,9 +12,9 @@ namespace FutureMe.Services.LetterGetter
             _repository = repository;
         }
 
-        public async Task<List<Letter>> GetTodaysLettersAsync()
+        public async Task<List<Letter>> GetUnsentLettersAsync()
         {
-            return await _repository.GetTodaysLettersAsync();
+            return await _repository.GetUnsentLettersAsync();
         }
     }
 }

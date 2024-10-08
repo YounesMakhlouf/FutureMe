@@ -368,3 +368,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /FutureMe/wwwroot/bootstrap
 /FutureMe/wwwroot/font-awesome
+/FutureMe/Migrations

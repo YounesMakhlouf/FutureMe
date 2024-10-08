@@ -18,12 +18,17 @@ namespace FutureMe.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Letter>> GetTodaysLettersAsync()
+        public async Task<List<Letter>> GetUnsentLettersAsync()
         {
-            var today = DateTime.UtcNow.Date;
             return await _context.Letters
-                .Where(letter => letter.SendingDate.Date == today)
+                .Where(letter => !letter.IsSent)
                 .ToListAsync();
+        }
+
+        public async Task UpdateAsync(Letter letter)
+        {
+            _context.Letters.Update(letter);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Letter>> GetPublicLettersAsync()

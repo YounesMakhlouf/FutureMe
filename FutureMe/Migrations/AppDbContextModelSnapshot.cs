@@ -138,6 +138,9 @@ namespace FutureMe.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("SendingDate")
                         .HasColumnType("datetime2");
 
@@ -147,7 +150,6 @@ namespace FutureMe.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("WritingDate")
@@ -312,9 +314,7 @@ namespace FutureMe.Migrations
                 {
                     b.HasOne("FutureMe.Areas.Identity.Data.ApplicationUser", "User")
                         .WithMany("Letters")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

@@ -19,6 +19,8 @@ namespace FutureMe.Models
 
         public bool IsPublic { get; set; }
 
+        public bool IsSent { get; set; } = false;
+
         [Required]
         [EmailAddress]
         public string Email { get; set; }

@@ -1,11 +1,11 @@
 :root {
     --ff-base: 'Segoe Print', 'Bradley Hand', Chilanka, TSCu_Comic, casual, cursive;
-    --fs-300: clamp(1rem, 0.956rem + 0.1878vw, 1.125rem);
-    --fs-400: clamp(1.2rem, 1.0946rem + 0.4498vw, 1.4994rem);
-    --fs-500: clamp(1.44rem, 1.2433rem + 0.8394vw, 1.9988rem);
-    --fs-600: clamp(1.7281rem, 1.3985rem + 1.4066vw, 2.6644rem);
-    --fs-700: clamp(2.0738rem, 1.5533rem + 2.2207vw, 3.5519rem);
-    --fs-800: clamp(2.4881rem, 1.697rem + 3.3756vw, 4.735rem);
+    --fs-300: clamp(1.00rem, calc(1.00rem + 0.00cqi), 1.00rem);
+    --fs-400: clamp(1.20rem, calc(1.18rem + 0.08cqi), 1.25rem);
+    --fs-500: clamp(1.44rem, calc(1.40rem + 0.18cqi), 1.56rem);
+    --fs-600: clamp(1.73rem, calc(1.65rem + 0.34cqi), 1.95rem);
+    --fs-700: clamp(2.07rem, calc(1.94rem + 0.55cqi), 2.44rem);
+    --fs-800: clamp(2.49rem, calc(2.29rem + 0.85cqi), 3.05rem);
     --clr-text: hsl(204, 100%, 1%);
     --clr-body: hsl(204, 20%, 10%);
     --clr-primary: hsl(269, 62%, 47%);

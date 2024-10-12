@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="fixed-image-container">
+<div class="fixed-image-container flow">
     @if (TempData["Success"] != null)
     {
         <div class="alert alert-success text-center">
@@ -13,14 +13,14 @@
     }
     <img src="~/images/pic1.png" alt="Mirror">
     <section class="smol-background-picture__content">
-        @using (Html.BeginForm("SaveLetter", "Home", FormMethod.Post, new { @class = "grid-container mt-5" }))
+        @using (Html.BeginForm("SaveLetter", "Home", FormMethod.Post, new { @class = "grid-container mt-2" }))
         {
             @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <!-- Letter Details Fieldset -->
-            <fieldset class="flow">
-                <legend class="mb-3">Compose Your Letter</legend>
+            <fieldset class="wrapper flow">
+                <legend>Compose Your Letter</legend>
 
                 <div class="form-group">
                     <label asp-for="Title" class="form-label mt-4"></label>
@@ -36,8 +36,8 @@
             </fieldset>
 
             <!-- Additional Details Fieldset -->
-            <fieldset class="wrapper">
-                <legend class="mb-3">One More Step to Go:</legend>
+            <fieldset class="wrapper flow">
+                <legend>One More Step to Go:</legend>
 
                 <div class="form-group">
                     <label asp-for="Email" class="form-label mt-4"></label>

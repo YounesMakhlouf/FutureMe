@@ -44,6 +44,13 @@ builder.Services.AddSingleton(new JobSchedule(
     cronExpression: "* * * * * ?" // Every day at midnight (Cron expression)
 ));
 
+// Configure application cookie
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

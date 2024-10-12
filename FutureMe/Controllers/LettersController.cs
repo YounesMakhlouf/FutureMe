@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using FutureMe.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FutureMe.Controllers
 {
+    [Authorize]
     public class LettersController : Controller
     {
         private readonly ILetterRepository _letterRepository;
